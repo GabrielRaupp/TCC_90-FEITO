@@ -1,0 +1,18 @@
+.newhorario_container {
+    width: 450px;
+    margin: 62pt;
+    padding: 3em;
+    background-color: #c7c7c7;
+    justify-content: center;
+    border-radius: 12pt;
+    margin-left: 24em;
+
+  }
+  
+  .newhorario_container h1 {
+    margin-bottom: 0.5em;
+  }
+  
+  .newhorario_container p {
+    color: #575757;
+  }

@@ -1,0 +1,86 @@
+.project_card {
+  padding: 1.5em;
+  border: 1px solid #7a7a7a; /* Borda cinza clara */
+  border-radius: 8px; /* Bordas mais arredondadas */
+  width: 24%;
+  margin: 0.5%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  transition: transform 0.3s; /* Efeito de hover */
+  background-color: #f9f9f9; /* Fundo mais claro */
+}
+
+.project_card:hover {
+  transform: scale(1.02); /* Efeito de zoom ao passar o mouse */
+}
+
+.project_card h4 {
+  background-color: #222; /* Cor de fundo escura */
+  color: #ffbb33; /* Texto dourado */
+  padding: 0.4em;
+  margin-bottom: 1.3em;
+  font-size: 1.4em; /* Aumentar o tamanho da fonte */
+  border: 2px solid #000; /* Borda preta ao redor do título */
+  border-radius: 5px; /* Bordas arredondadas */
+}
+
+.project_card p {
+  color: #34495e; /* Cor de texto mais escura */
+  margin-bottom: 1em;
+  font-size: 1em; /* Tamanho de fonte padrão */
+}
+
+.project_card p span {
+  font-weight: bold;
+}
+
+.category_text {
+  display: flex; /* Mantém tudo na mesma linha */
+  align-items: center; /* Centraliza verticalmente */
+  margin-bottom: 1.5em; /* Espaço entre a categoria e os botões */
+}
+
+.category_text span {
+  margin-right: 5px; /* Espaço entre o rótulo e a categoria */
+}
+
+.project_card_actions {
+  margin-top: 1.2em;
+  display: flex;
+  align-items: center;
+}
+
+.project_card_actions a,
+.project_card_actions button {
+  text-decoration: none;
+  border: none;
+  background-color: #fff;
+  color: #222;
+  font-size: 0.9em;
+  padding: 0.6em 1em;
+  margin-right: 1em;
+  cursor: pointer;
+  border: 1px solid #222;
+  transition: 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project_card_actions svg {
+  margin-right: 0.5em;
+  fill: #000; 
+  color: #000; 
+  transition: color 0.3s ease, fill 0.3s ease;
+}
+
+.project_card_actions a:hover svg,
+.project_card_actions button:hover svg {
+  fill: #fff; 
+  color: #fff; 
+}
+
+.project_card_actions a:hover,
+.project_card_actions button:hover {
+  background-color: #222;
+  color: #ffbb33;
+}

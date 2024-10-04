@@ -1,0 +1,17 @@
+.horario_container {
+    padding: 2em;
+  }
+  
+  .title_container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3em;
+    margin-top: 2em;
+  }
+
+.linkbutton
+{
+  background-color: black;
+  padding: 52pt;
+}
+

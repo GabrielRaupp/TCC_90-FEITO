@@ -1,0 +1,54 @@
+.Contact {
+  background: linear-gradient(135deg, #3e3e3e, #6b6b6b); /* Gradiente para o fundo */
+  margin: 4.2em;
+  margin-left: 15%; /* Ajuste nas margens para centralizar */
+  margin-right: 15%;
+  border: 3px solid #000; /* Cor da borda */
+  border-radius: 12px; /* Bordas arredondadas */
+  padding: 2.5em; /* Adiciona espaçamento interno */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra para profundidade */
+  text-align: center; /* Centraliza o texto */
+}
+
+.h1 {
+  font-size: 2.8rem; /* Tamanho maior para o título */
+  margin-bottom: 1.5em; /* Espaçamento abaixo do título */
+  color: #ffffff; /* Cor do texto */
+  font-family: 'Arial', sans-serif; /* Fonte moderna */
+  letter-spacing: 1px; /* Espaçamento entre letras */
+}
+
+.social_list {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0; /* Remove o padding padrão */
+}
+
+.social_list li {
+  margin: 0 1.5em; /* Aumenta o espaçamento horizontal */
+  width: 60px; /* Define a largura do item da lista */
+  height: 60px; /* Define a altura do item da lista */
+  border-radius: 50%; /* Círculo */
+  background-color: #ffffff; /* Fundo branco */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centraliza ícones */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra dos ícones */
+  transition: transform 0.3s, box-shadow 0.3s; /* Transições suaves */
+}
+
+.social_link {
+  font-size: 2.5rem; /* Aumenta o tamanho dos ícones */
+  color: #3e3e3e; /* Cor do ícone */
+  transition: color 0.3s; /* Transição de cor */
+}
+
+.social_list li:hover {
+  transform: scale(1.1); /* Efeito de aumentar no hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Efeito de sombra no hover */
+}
+
+.social_list li:hover .social_link {
+  color: #f0db4f; /* Muda a cor do ícone no hover */
+}

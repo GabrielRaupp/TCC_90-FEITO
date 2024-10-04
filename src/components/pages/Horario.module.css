@@ -1,0 +1,58 @@
+.horario_details {
+  padding: 2em;
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  flex-direction: column; /* Organiza os itens em coluna */
+  height: 100vh; /* Altura total da viewport */
+}
+
+.details_container {
+  border: 1px solid #7a7a7a; /* Borda cinza clara */
+  border-radius: 8px; /* Bordas arredondadas */
+  padding: 2em; /* Padding interno */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+  background-color: #fff; /* Fundo branco */
+  width: 100%; /* Largura total */
+  max-width: 600px; /* Largura máxima */
+  text-align: center; /* Texto centralizado */
+  margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+.horario_details h1 {
+  background-color: #222;
+  color: #ffbb33;
+  padding: 0.6em 1em;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5em; /* Aumenta a margem inferior */
+}
+.horario_info {
+  margin-top: 1.5em; /* Espaçamento superior */
+  color: #34495e; /* Cor de texto mais escura */
+  text-align: center; /* Texto centralizado */
+}
+
+
+
+.btn {
+  background-color: #222;
+  color: #fff;
+  padding: 0.6em 1.2em;
+  text-decoration: none;
+  transition: 0.5s;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 1.5em; /* Aumenta a margem superior */
+}
+
+.btn:hover {
+  color: #ffbb33; /* Cor do texto ao passar o mouse */
+  background-color: #444; /* Fundo ao passar o mouse */
+}
+
+.form {
+  width: 100%;
+  margin: 0 auto; /* Centraliza horizontalmente */
+}
