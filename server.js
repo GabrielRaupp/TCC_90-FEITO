@@ -51,6 +51,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   telefone: { type: String },
+  campus: { type: String, required: true },
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });
@@ -117,14 +118,14 @@ const User = mongoose.model('User', userSchema);
 // Rota para registrar
 app.post('/register', async (req, res) => {
   try {
-    const { username, password, email, telefone } = req.body;
+    const { username, password, email, telefone, campus } = req.body;
 
-    if (!username || !password || !email || !telefone) {
+    if (!username || !password || !email || !telefone || !campus) {
       return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword, email, telefone });
+    const newUser = new User({ username, password: hashedPassword, email, telefone, campus });
     await newUser.save();
 
     res.status(201).json({ message: 'Usuário registrado com sucesso!' });
@@ -133,6 +134,7 @@ app.post('/register', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
 
 // Rota para login
 app.post('/login', async (req, res) => {
