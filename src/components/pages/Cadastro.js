@@ -4,20 +4,19 @@ import styles from './Cadastro.module.css';
 const Cadastro = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [number, setNumber] = useState(''); // Novo campo para número de telefone
+  const [telefone, setTelefone] = useState(''); // Modificado para telefone
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/cadastro', {
+      const response = await fetch('http://localhost:3000/register', { // Corrigido para a rota '/register'
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password, name, email, number }), // Incluindo número no body da requisição
+        body: JSON.stringify({ username, password, email, telefone }), // Modificado para incluir telefone
       });
 
       const data = await response.json();
@@ -36,14 +35,15 @@ const Cadastro = () => {
       <h2>Cadastro</h2>
       <form onSubmit={handleSubmit}>
         <div className={styles.campo}>
-          <label htmlFor="name">Nome:</label>
+          <label htmlFor="username">Nome de Usuario:</label>
           <input
             type="text"
-            id="name"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            id="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
           />
         </div>
+        
         <div className={styles.campo}>
           <label htmlFor="email">Email:</label>
           <input
@@ -53,17 +53,9 @@ const Cadastro = () => {
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
+        
         <div className={styles.campo}>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </div>
-        <div className={styles.campo}>
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Senha:</label>
           <input
             type="password"
             id="password"
@@ -71,13 +63,14 @@ const Cadastro = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
+
         <div className={styles.campo}> 
-          <label htmlFor="number">Número de Telefone:</label>
+          <label htmlFor="telefone">Número de Telefone:</label>
           <input
             type="text"
-            id="number"
-            value={number}
-            onChange={(event) => setNumber(event.target.value)}
+            id="telefone" // Corrigido para id correto
+            value={telefone} // Corrigido para telefone
+            onChange={(event) => setTelefone(event.target.value)} // Corrigido para telefone
           />
         </div>
         <button className={styles.btnSubmit} type="submit">Cadastrar</button>

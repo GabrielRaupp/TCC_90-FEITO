@@ -2,44 +2,45 @@ import React, { useState } from 'react';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/ForgotPassword', {
+      const response = await fetch('http://localhost:3000/forgotpassword', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email }),
       });
-
-      if (!response.ok) {
-        const errorMessage = await response.text(); // Captura a resposta como texto
-        throw new Error(errorMessage || 'Erro ao solicitar redefinição de senha');
-      }
-
+  
       const data = await response.json();
-      alert(data.message);
+      setMessage(data.message || 'Erro ao solicitar redefinição de senha');
     } catch (error) {
-      alert(error.message);
+      console.error('Erro ao solicitar redefinição de senha:', error);
+      setMessage('Erro ao solicitar redefinição de senha. Tente novamente.');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="email">E-mail:</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Enviar E-mail de Redefinição de Senha</button>
-    </form>
+    <div>
+      <h2>Redefinir Senha</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="email">E-mail:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Enviar E-mail de Redefinição de Senha</button>
+      </form>
+      {message && <p>{message}</p>}
+    </div>
   );
 };
 

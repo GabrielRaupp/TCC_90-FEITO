@@ -37,18 +37,48 @@ function Horario() {
 
   const editPost = async (updatedHorario) => {
     try {
-      await fetch(`http://localhost:3000/horarios/${id}`, {
+      console.log("Atualizando horário com:", updatedHorario);
+      const response = await fetch(`http://localhost:3000/horarios/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedHorario),
       });
-      setHorario(updatedHorario);
-      setShowHorarioForm(false);
-      setMessage('Horário atualizado com sucesso!');
-      setType('success');
+
+      const data = await response.json();
+      console.log("Resposta da atualização:", data);
+
+      if (response.ok) {
+        setHorario(updatedHorario);
+        setShowHorarioForm(false);
+        setMessage('Horário atualizado com sucesso!');
+        setType('success');
+      } else {
+        setMessage('Erro ao atualizar o horário!');
+        setType('error');
+      }
     } catch (error) {
       console.error("Erro ao atualizar horário:", error);
       setMessage('Erro ao atualizar o horário!');
+      setType('error');
+    }
+  };
+
+  const deleteHorario = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/horarios/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setMessage('Horário excluído com sucesso!');
+        setType('success');
+      } else {
+        setMessage('Erro ao excluir o horário!');
+        setType('error');
+      }
+    } catch (error) {
+      console.error("Erro ao excluir horário:", error);
+      setMessage('Erro ao excluir o horário!');
       setType('error');
     }
   };
@@ -64,6 +94,9 @@ function Horario() {
               <button className={styles.btn} onClick={() => setShowHorarioForm(!showHorarioForm)}>
                 {showHorarioForm ? 'Fechar' : 'Editar horário'}
               </button>
+              <button className={styles.btn} onClick={deleteHorario}>
+                Excluir horário
+              </button>
               <div className={styles.horario_info}>
                 {!showHorarioForm ? (
                   <>
@@ -71,7 +104,7 @@ function Horario() {
                       <span>Categoria:</span> {horario.category || 'Sem categoria'}
                     </p>
                     <p>
-                      <span>Horário:</span> {horario.horarios}
+                      <span>Horário:</span> {horario.horarios || 'Não disponível'}
                     </p>
                   </>
                 ) : (

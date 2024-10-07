@@ -10,20 +10,34 @@ function Horarios() {
   const [horarios, setHorarios] = useState([]);
   const [removeLoading, setRemoveLoading] = useState(false);
   const [horarioMessage, setHorarioMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/horarios');
-        const data = await response.json();
-        console.log('Horarios recebidos:', data);
+        const response = await fetch('http://localhost:3000/horarios', {
+          credentials: 'same-origin',
+        });
 
-        // Organizar os horários em ordem cronológica
-        const sortedHorarios = data.sort((a, b) => new Date(a.horarios) - new Date(b.horarios));
+        if (!response.ok) {
+          throw new Error('Erro ao buscar horários');
+        }
+
+        const data = await response.json();
+        console.log('Horários recebidos:', data);  
+        
+        // Ordena os horários por data/hora
+        const sortedHorarios = data.sort((a, b) => {
+          const dateA = new Date(a.horarios); 
+          const dateB = new Date(b.horarios);
+          return dateA - dateB; 
+        });
+
         setHorarios(sortedHorarios);
-        setRemoveLoading(true);
       } catch (error) {
         console.error("Erro ao buscar horários:", error);
+        setErrorMessage(error.message);
+      } finally {
         setRemoveLoading(true);
       }
     };
@@ -33,14 +47,21 @@ function Horarios() {
 
   const removeHorario = async (id) => {
     try {
-      await fetch(`http://localhost:3000/horarios/${id}`, {
+      const response = await fetch(`http://localhost:3000/horario/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
       });
-      setHorarios(horarios.filter((horario) => horario._id !== id));
+
+      if (!response.ok) {
+        throw new Error('Erro ao remover horário');
+      }
+
+      setHorarios((prevHorarios) => prevHorarios.filter((horario) => horario._id !== id));
       setHorarioMessage('Horário removido com sucesso!');
     } catch (error) {
       console.error("Erro ao remover horário:", error);
+      setErrorMessage(error.message);
     }
   };
 
@@ -51,6 +72,7 @@ function Horarios() {
         <LinkButton to="/newhorario" text="Montar horário" customClass={styles.addHorarioButton} />
       </div>
       {horarioMessage && <Message type="success" msg={horarioMessage} />}
+      {errorMessage && <Message type="error" msg={errorMessage} />}
       <Container customClass={styles.container}>
         {horarios.length > 0 ? (
           horarios.map((horario) => (

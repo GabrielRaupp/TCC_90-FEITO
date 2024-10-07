@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importando useNavigate
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 
 const Login = () => {
@@ -7,7 +7,16 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUsername, setLoggedInUsername] = useState('');
-  const navigate = useNavigate(); // Inicializa o useNavigate
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
+    const storedUsername = localStorage.getItem('username');
+    if (storedIsLoggedIn === 'true' && storedUsername) {
+      setIsLoggedIn(true);
+      setLoggedInUsername(storedUsername);
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -36,40 +45,69 @@ const Login = () => {
     }
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setLoggedInUsername('');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    alert('Logout realizado com sucesso!');
+  };
+
   const handlePasswordReset = () => {
-    // Navega para a página de redefinição de senha
-    navigate('/ForgotPassword'); // Usando navigate para redirecionar
+    navigate('/ForgotPassword');
   };
 
   return (
     <div className={styles.logincontainer}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Usuário:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+      {isLoggedIn ? (
+        <div className={styles.profilecard}>
+          <div className={styles.usericon}>👤</div>
+          <div className={styles.profileinfo}>
+            <h3>{loggedInUsername}</h3>
+            <p>Bem-vindo(a) de volta!</p>
+          </div>
+          <div>
+            <button className={styles.logoutButton} onClick={handleLogout}>
+              Logout
+            </button>
+            <button className={styles.resetPasswordButton} onClick={handlePasswordReset}>
+              Redefinir Senha
+            </button>
+          </div>
         </div>
+      ) : (
         <div>
-          <label htmlFor="password">Senha:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <h2>Login</h2>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="username">Usuário:</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="password">Senha:</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className={styles.submitButton}>
+              Entrar
+            </button>
+          </form>
+          <button className={styles.resetPasswordButton} onClick={handlePasswordReset}>
+            Redefinir Senha
+          </button>
         </div>
-        <button type="submit" className={styles.submitButton}>Entrar</button>
-      </form>
-      <button className={styles.resetPasswordButton} onClick={handlePasswordReset}>
-        Redefinir Senha
-      </button>
+      )}
     </div>
   );
 };

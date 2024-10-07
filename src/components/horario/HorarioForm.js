@@ -1,27 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from './HorarioForm.module.css'; // Importa o CSS como um módulo
+import styles from './HorarioForm.module.css'; 
 
 const HorarioForm = ({ onSubmitSuccess, horarioData }) => {
   const [name, setName] = useState('');
-  const [horarios, setHorarios] = useState(''); // Campo para horários
+  const [horarios, setHorarios] = useState(''); 
   const [category, setCategory] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Preenche os campos se um horarioData for passado (para edição)
   useEffect(() => {
     if (horarioData) {
       setName(horarioData.name);
       setHorarios(horarioData.horarios);
-      setCategory(horarioData.category || ''); // Ajuste para pegar diretamente a categoria
+      setCategory(horarioData.category || ''); 
     }
   }, [horarioData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validação dos campos
     if (!name || !horarios || !category) {
       setErrorMessage('Todos os campos são obrigatórios');
+      return;
+    }
+
+    // Validação de data
+    const parsedHorario = new Date(horarios);
+    if (isNaN(parsedHorario)) {
+      setErrorMessage('Por favor, forneça uma data/hora válida.');
       return;
     }
 
@@ -29,23 +36,26 @@ const HorarioForm = ({ onSubmitSuccess, horarioData }) => {
       let response;
       const horarioPayload = {
         name,
-        horarios,
-        category, 
+        horarios: parsedHorario.toISOString(), 
+        category,
       };
 
-      console.log('horarioPayload:', horarioPayload); 
+      console.log('horarioPayload:', horarioPayload);
 
       if (horarioData) {
-        response = await axios.put(`/horarios/${horarioData._id}`, horarioPayload);
+        response = await axios.put(`/horarios/${horarioData._id}`, horarioPayload, {
+          withCredentials: true, 
+        });
       } else {
-        response = await axios.post('/horarios', horarioPayload);
+        response = await axios.post('/horarios', horarioPayload, {
+          withCredentials: true, 
+        });
       }
 
-      
       setName('');
       setHorarios('');
       setCategory('');
-      setErrorMessage(''); 
+      setErrorMessage('');
 
       if (onSubmitSuccess) {
         onSubmitSuccess(response.data); 
@@ -82,24 +92,25 @@ const HorarioForm = ({ onSubmitSuccess, horarioData }) => {
           />
         </div>
         <div>
-  <label htmlFor="category">Categoria:</label>
-  <select
-    id="category"
-    value={category}
-    onChange={(e) => setCategory(e.target.value)}
-    required
-  >
-    <option value="">Selecione uma categoria</option>
-    <option value="Atividade">Atividade</option>
-    <option value="Trabalho">Trabalho</option>
-    <option value="Prova">Prova</option>
-    <option value="Orientação/Co-Orientação">Orientação/Co-Orientação</option>
-    <option value="Evento">Evento</option>
-    <option value="Atendimento">Atendimento</option>
-  </select>
-</div>
-        {errorMessage && <p className={styles.error}>{errorMessage}</p>} 
-        <button type="submit">{horarioData ? 'Atualizar Horário' : 'Salvar Horário'}</button> 
+          <label htmlFor="category">Categoria:</label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          >
+            <option value="">Selecione uma categoria</option>
+            <option value="Apresentação">Apresentação</option>
+            <option value="Atendimento">Atendimento</option>
+            <option value="Atividade">Atividade</option>
+            <option value="Evento">Evento</option>
+            <option value="Orientação/Co-Orientação">Orientação/Co-Orientação</option>
+            <option value="Prova">Prova</option>
+            <option value="Trabalho">Trabalho</option>
+          </select>
+        </div>
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+        <button type="submit">{horarioData ? 'Atualizar Horário' : 'Salvar Horário'}</button>
       </form>
     </div>
   );

@@ -1,74 +1,123 @@
 /* Estilos do componente de login */
 .logincontainer {
-  max-width: 400px; /* Aumentei um pouco o tamanho máximo */
-  margin: 80px auto; /* Mantive a margem */
-  padding: 40px; /* Aumentei o padding */
-  border: 1px solid #e0e0e0; /* Bordas mais suaves */
-  border-radius: 20px; /* Bordas mais arredondadas */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
-  background-color: #f9f9f9; /* Cor de fundo mais clara */
-  font-family: 'Arial', sans-serif; /* Fonte mais moderna */
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+  font-family: 'Arial', sans-serif;
 }
 
 .logincontainer h2 {
   text-align: center;
-  font-size: 24px; /* Aumentei o tamanho da fonte */
+  font-size: 24px;
   font-weight: bold;
-  color: #333; /* Cor do texto mais escura */
-  margin-bottom: 20px; /* Espaçamento inferior */
+  color: #333;
+  margin-bottom: 20px;
 }
 
 .logincontainer label {
-  display: block; 
-  margin-bottom: 5px; /* Mantive a margem */
-  font-size: 14px; /* Tamanho da fonte menor */
-  color: #666; /* Cor do texto mais suave */
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #666;
 }
 
 .logincontainer input[type="text"], 
 .logincontainer input[type="password"] {
-  width: 100%; 
-  height: 45px; /* Aumentei a altura */
-  margin-bottom: 20px; /* Aumentei o espaço entre campos */
-  padding: 10px; 
+  width: 100%;
+  height: 45px;
+  margin-bottom: 20px;
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 10px; /* Bordas mais arredondadas */
-  transition: border-color 0.3s; /* Transição suave para foco */
+  border-radius: 10px;
+  transition: border-color 0.3s;
 }
 
 .logincontainer input[type="text"]:focus, 
 .logincontainer input[type="password"]:focus {
-  border-color: #b39a2a;;
-  outline: none; 
+  border-color: #b39a2a;
+  outline: none;
 }
 
-.logincontainer button[type="submit"] {
-  background-color: #b39a2a; 
-  color: #fff; 
-  padding: 12px 20px; 
-  border: none; 
-  border-radius: 10px; 
+.submitButton {
+  background-color: #b39a2a;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 16px; 
-  transition: background-color 0.3s; 
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
-.logincontainer button[type="submit"]:hover {
-  background-color: #b39a2a; 
+.submitButton:hover {
+  background-color: #9c851e;
 }
 
 .resetPasswordButton {
-  background-color: #007bff; /* Cor de fundo azul */
-  color: #fff; /* Texto branco */
-  padding: 10px 15px; /* Padding */
-  border: none; /* Sem borda */
-  border-radius: 10px; /* Bordas arredondadas */
-  cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
-  font-size: 14px; /* Tamanho da fonte */
-  transition: background-color 0.3s; /* Transição suave */
-  margin-top: 10px; /* Espaçamento acima */
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  margin-top: 10px;
 }
 
 .resetPasswordButton:hover {
-  background-color: #0056b3; /* Cor mais escura ao passar o mouse */
+  background-color: #0056b3;
+}
+
+/* Estilos do profile card */
+.profilecard {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.usericon {
+  font-size: 48px;
+  margin-right: 15px;
+  color: #4CAF50;
+}
+
+.profileinfo {
+  text-align: left;
+  flex-grow: 1;
+}
+
+.profileinfo h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.profileinfo p {
+  margin: 5px 0;
+  color: #777;
+}
+
+.logoutButton {
+  background-color: #ff5722;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.logoutButton:hover {
+  background-color: #e64a19;
 }

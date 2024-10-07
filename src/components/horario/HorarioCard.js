@@ -8,7 +8,6 @@ function HorarioCard({ id, name, horario, category, handleRemove }) {
     handleRemove(id);
   };
 
-  // Formatar a data e o horário
   const formatHorario = (dateString) => {
     const date = new Date(dateString);
     const options = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
