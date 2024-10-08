@@ -3,13 +3,15 @@ import styles from './HorarioCard.module.css';
 import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
 
 function HorarioCard({ id, name, horario, category, handleRemove }) {
-  const remove = (e) => {
+  const remove = async (e) => {
     e.preventDefault();
-    handleRemove(id);
+    await handleRemove(id);  // Chama a função de remoção
   };
 
   const formatHorario = (dateString) => {
+    if (!dateString) return 'Horário não disponível';
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return 'Data inválida';
     const options = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
     return date.toLocaleString('pt-BR', options);
   };

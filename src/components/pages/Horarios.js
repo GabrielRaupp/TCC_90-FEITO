@@ -24,19 +24,14 @@ function Horarios() {
         }
 
         const data = await response.json();
-        console.log('Horários recebidos:', data);  
-        
-        // Ordena os horários por data/hora
-        const sortedHorarios = data.sort((a, b) => {
-          const dateA = new Date(a.horarios); 
-          const dateB = new Date(b.horarios);
-          return dateA - dateB; 
-        });
+        console.log('Horários recebidos:', data);
 
+        // Ordena os horários por data/hora
+        const sortedHorarios = data.sort((a, b) => new Date(a.horarios) - new Date(b.horarios));
         setHorarios(sortedHorarios);
       } catch (error) {
         console.error("Erro ao buscar horários:", error);
-        setErrorMessage(error.message);
+        setErrorMessage('Falha ao carregar os horários. Tente novamente mais tarde.');
       } finally {
         setRemoveLoading(true);
       }
@@ -47,7 +42,7 @@ function Horarios() {
 
   const removeHorario = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/horario/${id}`, {
+      const response = await fetch(`http://localhost:3000/horarios/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
@@ -61,7 +56,7 @@ function Horarios() {
       setHorarioMessage('Horário removido com sucesso!');
     } catch (error) {
       console.error("Erro ao remover horário:", error);
-      setErrorMessage(error.message);
+      setErrorMessage('Falha ao remover o horário. Tente novamente.');
     }
   };
 
@@ -83,7 +78,6 @@ function Horarios() {
               category={horario.category || 'Sem categoria'}
               key={horario._id}
               handleRemove={removeHorario}
-              customClass={styles.horarioCard}
             />
           ))
         ) : (

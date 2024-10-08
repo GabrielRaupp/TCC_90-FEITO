@@ -17,10 +17,11 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(express.json());
 app.use(cors());
 app.use(session({
-  secret: '01102005Br@',
+  secret: process.env.SESSION_SECRET || 'default_secret', // Use uma variável de ambiente para o segredo
   resave: false,
   saveUninitialized: true,
 }));
@@ -56,6 +57,7 @@ const userSchema = new mongoose.Schema({
   resetPasswordExpires: Date
 });
 
+const User = mongoose.model('User', userSchema);
 
 // Rota para excluir um horário
 app.delete('/horarios/:id', async (req, res) => {
@@ -70,7 +72,7 @@ app.delete('/horarios/:id', async (req, res) => {
     res.json({ message: 'Horário excluído com sucesso!' });
   } catch (error) {
     console.error('Erro ao excluir horário:', error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Erro ao excluir horário' });
   }
 });
 
@@ -113,9 +115,8 @@ app.put('/horarios/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-const User = mongoose.model('User', userSchema);
 
-// Rota para registrar
+// Rota para registrar um novo usuário
 app.post('/register', async (req, res) => {
   try {
     const { username, password, email, telefone, campus } = req.body;
@@ -134,7 +135,6 @@ app.post('/register', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 // Rota para login
 app.post('/login', async (req, res) => {
@@ -184,14 +184,14 @@ app.post('/forgotpassword', async (req, res) => {
 
     const token = crypto.randomBytes(20).toString('hex');
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; 
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
     await user.save();
 
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
         user: process.env.EMAIL_USER, 
-        pass: 'sua_senha_de_aplicativo_aqui', 
+        pass: process.env.EMAIL_PASS, // Use uma variável de ambiente para a senha
       },
     });
 
