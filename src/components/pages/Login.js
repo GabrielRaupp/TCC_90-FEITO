@@ -39,6 +39,8 @@ const Login = () => {
       setLoggedInUsername(username);
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('username', username);
+      localStorage.setItem('email', data.email);       
+      localStorage.setItem('createdAt', data.createdAt); 
       alert('Login bem-sucedido!');
     } catch (error) {
       alert(error.message);
@@ -50,6 +52,8 @@ const Login = () => {
     setLoggedInUsername('');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    localStorage.removeItem('createdAt');
     alert('Logout realizado com sucesso!');
   };
 

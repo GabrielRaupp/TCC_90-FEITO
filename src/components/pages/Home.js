@@ -9,8 +9,8 @@ function Home() {
       <h1>
         Bem-vindo ao <span>IntelAgend</span>
       </h1>
-      <p>Monte seu horario aqui no botão abaixo!</p>
-      <LinkButton to="/newhorario" text="Criar Horario/Lembrete" />
+      <p>Crie sua conta para começar a usufruir do nosso sistema!</p>
+      <LinkButton to="/Cadastro" text="Criar conta " />
       <img src={savings} alt="Savings" />
     </section>
   )

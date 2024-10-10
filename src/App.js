@@ -12,9 +12,7 @@ import Login from './components/pages/Login';
 import Cadastro from './components/pages/Cadastro';
 import ForgotPassword from './components/pages/ForgotPassword';
 import ResetarSenha from './components/pages/ResetarSenha';
-
-
-
+import Perfil from './components/pages/perfil';
 
 
 function App() {
@@ -31,6 +29,7 @@ function App() {
           <Route path="/singup" element={<SingUp />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Cadastro" element={<Cadastro />} />
+          <Route path="/perfil" element={<Perfil />} />
           <Route path="/ForgotPassword" element={<ForgotPassword />} />
           <Route path="/ResetarSenha/:token" element={<ResetarSenha />} />
 
