@@ -54,7 +54,9 @@ const userSchema = new mongoose.Schema({
   telefone: { type: String },
   campus: { type: String, required: true },
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  createdAt: { type: Date, default: Date.now }, 
+
 });
 
 const User = mongoose.model('User', userSchema);
@@ -141,22 +143,56 @@ app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
+
     if (!user) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
+
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
       return res.status(401).json({ message: 'Senha inválida' });
     }
 
     req.session.userId = user._id;
-    console.log(`Usuário logado: ${user.username}, ID: ${req.session.userId}`);
-    res.json({ message: 'Usuário logado com sucesso!' });
+
+    res.json({
+      message: 'Usuário logado com sucesso!',
+      user: {
+        username: user.username,
+        email: user.email,
+        createdAt: user.createdAt 
+      }
+    });
   } catch (error) {
     console.error('Erro ao fazer login:', error);
     res.status(400).json({ message: error.message });
   }
 });
+
+// Rota para obter o perfil do usuário
+app.get('/perfil', async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ message: 'Você precisa estar logado para acessar o perfil.' });
+    }
+
+    const user = await User.findById(req.session.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+
+    res.json({
+      username: user.username,
+      email: user.email,
+      createdAt: user.createdAt,
+      campus: user.campus
+    });
+  } catch (error) {
+    console.error('Erro ao obter perfil do usuário:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 // Rota para logout
 app.post('/logout', (req, res) => {
@@ -191,7 +227,7 @@ app.post('/forgotpassword', async (req, res) => {
       service: 'Gmail',
       auth: {
         user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS, // Use uma variável de ambiente para a senha
+        pass: process.env.EMAIL_PASS, 
       },
     });
 

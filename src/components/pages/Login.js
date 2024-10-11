@@ -42,6 +42,8 @@ const Login = () => {
       localStorage.setItem('email', data.email);       
       localStorage.setItem('createdAt', data.createdAt); 
       alert('Login bem-sucedido!');
+
+      window.location.reload();
     } catch (error) {
       alert(error.message);
     }

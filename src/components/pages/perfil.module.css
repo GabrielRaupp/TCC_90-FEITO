@@ -1,0 +1,67 @@
+.profileContainer {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px; /* Cantos levemente mais arredondados */
+    background-color: #ffffff; /* Fundo branco para um visual limpo */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transição suave para hover */
+  }
+  
+  .profileContainer:hover {
+    transform: translateY(-5px); /* Efeito de levitação ao passar o mouse */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Sombra mais intensa no hover */
+  }
+  
+  .profileHeader {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 28px; /* Tamanho da fonte aumentado para destaque */
+    font-family: 'Arial', sans-serif; /* Fonte mais moderna */
+  }
+  
+  .profileInfo {
+    margin: 15px 0;
+    font-size: 20px; /* Tamanho da fonte para as informações */
+    color: #444; /* Cor um pouco mais clara para melhor legibilidade */
+    line-height: 1.6; /* Espaçamento de linha para facilitar a leitura */
+  }
+  
+  .profileInfo p {
+    margin: 8px 0; /* Margem uniforme para as informações */
+  }
+  
+  .profileInfo strong {
+    color: #000; /* Cor do texto forte */
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .profileContainer {
+      padding: 15px; /* Menos padding em telas menores */
+    }
+  
+    .profileHeader {
+      font-size: 24px; /* Ajuste de tamanho de fonte em telas menores */
+    }
+  
+    .profileInfo {
+      font-size: 18px; /* Ajuste de tamanho de fonte em telas menores */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .profileContainer {
+      margin: 10px; /* Menor margem em telas muito pequenas */
+    }
+  
+    .profileHeader {
+      font-size: 22px; /* Tamanho de fonte reduzido */
+    }
+  
+    .profileInfo {
+      font-size: 16px; /* Tamanho de fonte ainda menor */
+    }
+  }
+  

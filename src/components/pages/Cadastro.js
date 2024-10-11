@@ -6,18 +6,18 @@ const Cadastro = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [campus, setCampus] = useState('');
-  const [telefone, setTelefone] = useState(''); 
+  const [telefone, setTelefone] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/register', { 
+      const response = await fetch('http://localhost:3000/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password, email, telefone }), 
+        body: JSON.stringify({ username, password, email, telefone, campus }), // Enviando campus
       });
 
       const data = await response.json();
@@ -74,37 +74,34 @@ const Cadastro = () => {
             onChange={(event) => setTelefone(event.target.value)} 
           />
         </div>
+
         <div className={styles.campo}>
-  <form>
-    <div className={styles.campo}>
-      <label htmlFor="campus">Campus:</label>
-        <select
-          id="campus"
-          value={campus}
-          onChange={(e) => setCampus(e.target.value)}
-          required
-        >
-              <option value="">Selecione um campus</option>
-                <option value="IFC Campus Araquari">IFC Campus Araquari</option>
-                <option value="IFC Campus Avançado Abelardo Luz">IFC Campus Avançado Abelardo Luz</option>
-                <option value="IFC Campus Avançado Brusque">IFC Campus Avançado Brusque</option>
-                <option value="IFC Campus Blumenau">IFC Campus Blumenau</option>
-                <option value="IFC Campus Brusque">IFC Campus Brusque</option>
-                <option value="IFC Campus Camboriú">IFC Campus Camboriú</option>
-                <option value="IFC Campus Concórdia">IFC Campus Concórdia</option>
-                <option value="IFC Campus Fraiburgo">IFC Campus Fraiburgo</option>
-                <option value="IFC Campus Ibirama">IFC Campus Ibirama</option>
-                <option value="IFC Campus Luzerna">IFC Campus Luzerna</option>
-                <option value="IFC Campus Rio do Sul">IFC Campus Rio do Sul</option>
-                <option value="IFC Campus Santa Rosa do Sul">IFC Campus Santa Rosa do Sul</option>
-                <option value="IFC Campus São Bento do Sul">IFC Campus São Bento do Sul</option>
-                <option value="IFC Campus São Francisco do Sul">IFC Campus São Francisco do Sul</option>
-                <option value="IFC Campus Sombrio">IFC Campus Sombrio</option>
-                <option value="IFC Campus Videira">IFC Campus Videira</option>
-        </select>
-    </div>
-  </form>
-</div>
+          <label htmlFor="campus">Campus:</label>
+          <select
+            id="campus"
+            value={campus}
+            onChange={(e) => setCampus(e.target.value)}
+            required
+          >
+            <option value="">Selecione um campus</option>
+            <option value="IFC Campus Araquari">IFC Campus Araquari</option>
+            <option value="IFC Campus Avançado Abelardo Luz">IFC Campus Avançado Abelardo Luz</option>
+            <option value="IFC Campus Avançado Brusque">IFC Campus Avançado Brusque</option>
+            <option value="IFC Campus Blumenau">IFC Campus Blumenau</option>
+            <option value="IFC Campus Brusque">IFC Campus Brusque</option>
+            <option value="IFC Campus Camboriú">IFC Campus Camboriú</option>
+            <option value="IFC Campus Concórdia">IFC Campus Concórdia</option>
+            <option value="IFC Campus Fraiburgo">IFC Campus Fraiburgo</option>
+            <option value="IFC Campus Ibirama">IFC Campus Ibirama</option>
+            <option value="IFC Campus Luzerna">IFC Campus Luzerna</option>
+            <option value="IFC Campus Rio do Sul">IFC Campus Rio do Sul</option>
+            <option value="IFC Campus Santa Rosa do Sul">IFC Campus Santa Rosa do Sul</option>
+            <option value="IFC Campus São Bento do Sul">IFC Campus São Bento do Sul</option>
+            <option value="IFC Campus São Francisco do Sul">IFC Campus São Francisco do Sul</option>
+            <option value="IFC Campus Sombrio">IFC Campus Sombrio</option>
+            <option value="IFC Campus Videira">IFC Campus Videira</option>
+          </select>
+        </div>
 
         <button className={styles.btnSubmit} type="submit">Cadastrar</button>
       </form>
