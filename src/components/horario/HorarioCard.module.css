@@ -1,9 +1,17 @@
+.project_card_container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1%; 
+  justify-content: space-between;
+  width: 100%;
+}
+
 .project_card {
   padding: 1.5em;
   border: 1px solid #7a7a7a;
   border-radius: 8px;
   width: 24%;
-  margin: 0.5%;
+  margin: 0.5%; 
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
   background-color: #f9f9f9;
@@ -85,6 +93,7 @@
   color: #ffbb33;
 }
 
+/* Responsividade */
 @media (max-width: 768px) {
   .project_card {
     width: 48%;
@@ -93,7 +102,7 @@
 
 @media (max-width: 480px) {
   .project_card {
-    width: 100%;
+    width: 100%; 
     margin: 0.5em 0;
   }
 }

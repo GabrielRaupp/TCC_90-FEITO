@@ -26,7 +26,7 @@ function NewHorario() {
   return (
     <div className={styles.newhorario_container}>
       <h1>Criar Horário</h1>
-      <p>Crie seu horário para depois adicionar os serviços</p>
+      <p>Crie seu horário para depois ele ser adicionado na sua agenda pessoal</p>
       <HorarioForm handleSubmit={createPost} btnText="Criar Horário" />
     </div>
   );

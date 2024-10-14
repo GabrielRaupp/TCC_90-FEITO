@@ -5,7 +5,7 @@ import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
 function HorarioCard({ id, name, horario, category, handleRemove }) {
   const remove = async (e) => {
     e.preventDefault();
-    await handleRemove(id);  // Chama a função de remoção
+    await handleRemove(id);  
   };
 
   const formatHorario = (dateString) => {

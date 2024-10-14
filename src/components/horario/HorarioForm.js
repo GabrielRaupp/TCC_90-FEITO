@@ -68,7 +68,7 @@ const HorarioForm = ({ onSubmitSuccess, horarioData }) => {
 
   return (
     <div className={styles.form}>
-      <h2>{horarioData ? 'Editar Horário' : 'Cadastrar Horário'}</h2>
+      <h2>{horarioData ? 'Editar Horário' : ''}</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Nome:</label>

@@ -1,67 +1,81 @@
 .profileContainer {
-    max-width: 600px;
+    max-width: 500px;
     margin: 20px auto;
     padding: 20px;
-    border-radius: 12px; /* Cantos levemente mais arredondados */
-    background-color: #ffffff; /* Fundo branco para um visual limpo */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
-    transition: transform 0.3s, box-shadow 0.3s; /* Transição suave para hover */
+    border-radius: 12px; 
+    background-color: #ffffff; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.3s, box-shadow 0.3s; 
   }
   
   .profileContainer:hover {
-    transform: translateY(-5px); /* Efeito de levitação ao passar o mouse */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Sombra mais intensa no hover */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   }
   
   .profileHeader {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
-    font-size: 28px; /* Tamanho da fonte aumentado para destaque */
-    font-family: 'Arial', sans-serif; /* Fonte mais moderna */
+    font-size: 28px; 
+    font-family: 'Arial', sans-serif; 
   }
   
   .profileInfo {
     margin: 15px 0;
-    font-size: 20px; /* Tamanho da fonte para as informações */
-    color: #444; /* Cor um pouco mais clara para melhor legibilidade */
-    line-height: 1.6; /* Espaçamento de linha para facilitar a leitura */
+    font-size: 20px; 
+    color: #444; 
+    line-height: 1.6; 
   }
   
   .profileInfo p {
-    margin: 8px 0; /* Margem uniforme para as informações */
+    margin: 8px 0;
   }
   
   .profileInfo strong {
-    color: #000; /* Cor do texto forte */
+    color: #000; 
   }
   
   /* Responsividade */
   @media (max-width: 768px) {
     .profileContainer {
-      padding: 15px; /* Menos padding em telas menores */
+      padding: 15px;
     }
   
     .profileHeader {
-      font-size: 24px; /* Ajuste de tamanho de fonte em telas menores */
+      font-size: 24px; 
     }
   
     .profileInfo {
-      font-size: 18px; /* Ajuste de tamanho de fonte em telas menores */
+      font-size: 18px; 
     }
   }
   
   @media (max-width: 480px) {
     .profileContainer {
-      margin: 10px; /* Menor margem em telas muito pequenas */
+      margin: 10px; 
     }
   
     .profileHeader {
-      font-size: 22px; /* Tamanho de fonte reduzido */
+      font-size: 22px; 
     }
   
     .profileInfo {
-      font-size: 16px; /* Tamanho de fonte ainda menor */
+      font-size: 16px; 
     }
   }
+  .resetPasswordButton {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
   
+  .resetPasswordButton:hover {
+    background-color: #0056b3;
+  }
