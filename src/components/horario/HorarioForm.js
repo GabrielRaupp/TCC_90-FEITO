@@ -105,6 +105,7 @@ const HorarioForm = ({ onSubmitSuccess, horarioData }) => {
             <option value="Atividade">Atividade</option>
             <option value="Evento">Evento</option>
             <option value="Orientação/Co-Orientação">Orientação/Co-Orientação</option>
+            <option value="Recuperação">Recuperação</option>
             <option value="Prova">Prova</option>
             <option value="Trabalho">Trabalho</option>
           </select>

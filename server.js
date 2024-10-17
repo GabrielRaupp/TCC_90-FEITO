@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import session from 'express-session';
+import twilio from 'twilio';
 
 dotenv.config();
 
@@ -17,16 +18,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'default_secret', // Use uma variável de ambiente para o segredo
+  secret: process.env.SESSION_SECRET || 'default_secret', 
   resave: false,
   saveUninitialized: true,
 }));
 
 const uri = process.env.MONGODB_URI || "mongodb+srv://Gabriel:qVeyehZk9ydz3eRZ@cluster0.imngu.mongodb.net/myDatabase?retryWrites=true&w=majority";
+const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER || '+5548999795671';
+
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -56,8 +59,8 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   createdAt: { type: Date, default: Date.now }, 
-
 });
+
 
 const User = mongoose.model('User', userSchema);
 
@@ -220,14 +223,14 @@ app.post('/forgotpassword', async (req, res) => {
 
     const token = crypto.randomBytes(20).toString('hex');
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
+    user.resetPasswordExpires = Date.now() + 3600000; 
     await user.save();
 
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
         user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS, 
+        pass: 'uihr pxak ltqp wlsh',  
       },
     });
 
@@ -301,33 +304,68 @@ app.get('/horarios', async (req, res) => {
 // Rota para registrar um novo horário
 app.post('/horarios', async (req, res) => {
   try {
-    console.log('Requisição para registrar um novo horário');
-    console.log('Corpo da requisição:', req.body);
-
     const { name, horarios, category } = req.body;
 
     if (!name || !horarios || !category) {
       return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
     }
 
-    console.log('ID do usuário:', req.session.userId);
+    if (!req.session.userId) {
+      return res.status(401).json({ message: 'Você precisa estar logado para cadastrar um horário.' });
+    }
+
+    const user = await User.findById(req.session.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
 
     const newHorario = new Horario({
       name,
       horarios,
       category,
-      user: req.session.userId 
+      user: user._id,  
+    });
+    await newHorario.save();
+
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: 'uihr pxak ltqp wlsh',  
+      },
     });
 
-    console.log('Novo horário:', newHorario);
+    const mailOptions = {
+      to: user.email,
+      from: process.env.EMAIL_USER,
+      subject: 'Novo horário cadastrado',
+      text: `Olá ${user.username},\n\nVocê cadastrou um novo horário: \n\n` +
+            `Nome: ${name}\n` +
+            `Horário: ${horarios}\n` +
+            `Categoria: ${category}\n\n` +
+            `Obrigado por usar nosso serviço!`,
+    };
 
-    await newHorario.save();
-    res.status(201).json(newHorario);
+    await transporter.sendMail(mailOptions);
+    console.log(`Email enviado para ${user.email} sobre o novo horário.`); 
+
+    res.status(201).json({ message: 'Horário cadastrado com sucesso e e-mail enviado!', newHorario });
+
   } catch (error) {
-    console.error('Erro ao criar horário:', error);
-    res.status(500).json({ message: error.message });
+    console.error('Erro ao cadastrar horário e enviar e-mail:', error);
+    res.status(500).json({ message: 'Erro ao cadastrar horário.' });
   }
 });
+
+    // Enviar SMS de notificação via Twilio
+    if (user.telefone) {
+      await twilioClient.messages.create({
+        body: `Você cadastrou um novo horário com sucesso: ${name} - ${horarios}`,
+        from: TWILIO_PHONE_NUMBER,
+        to: user.telefone
+      });
+      console.log(`SMS enviado para ${user.telefone}`);
+    }
 
 app.use(express.static(path.join(__dirname, 'build')));
 
