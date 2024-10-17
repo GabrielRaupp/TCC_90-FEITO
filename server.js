@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import session from 'express-session';
-import twilio from 'twilio';
+import twilio from 'twilio'; 
 
 dotenv.config();
 
@@ -27,8 +27,7 @@ app.use(session({
 }));
 
 const uri = process.env.MONGODB_URI || "mongodb+srv://Gabriel:qVeyehZk9ydz3eRZ@cluster0.imngu.mongodb.net/myDatabase?retryWrites=true&w=majority";
-const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
-const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER || '+5548999795671';
+
 
 
 mongoose.connect(uri, {
@@ -323,15 +322,16 @@ app.post('/horarios', async (req, res) => {
       name,
       horarios,
       category,
-      user: user._id,  
+      user: user._id,
     });
     await newHorario.save();
 
+    // Enviar email
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
         user: process.env.EMAIL_USER,
-        pass: 'uihr pxak ltqp wlsh',  
+        pass: process.env.EMAIL_PASS,  
       },
     });
 
@@ -347,26 +347,37 @@ app.post('/horarios', async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log(`Email enviado para ${user.email} sobre o novo horário.`); 
+    console.log(`Email enviado para ${user.email} sobre o novo horário.`);
 
-    res.status(201).json({ message: 'Horário cadastrado com sucesso e e-mail enviado!', newHorario });
+    // Enviar mensagem via WhatsApp usando Twilio
+    const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+    
+    if (user.telefone) {
+      const message = await twilioClient.messages.create({
+        body: `Olá ${user.username}, você cadastrou um novo horário: ${name} às ${horarios}, categoria: ${category}.`,
+        from: `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`, 
+        to: `whatsapp:${user.telefone}`, 
+      });
+      console.log(`Mensagem WhatsApp enviada para ${user.telefone}:`, message.sid);
+    } else {
+      console.log('Telefone não disponível para envio de mensagem.');
+    }
+
+    res.status(201).json({
+      message: 'Horário cadastrado com sucesso, e-mail e WhatsApp enviados!',
+      newHorario,
+    });
 
   } catch (error) {
-    console.error('Erro ao cadastrar horário e enviar e-mail:', error);
-    res.status(500).json({ message: 'Erro ao cadastrar horário.' });
+    console.error('Erro ao cadastrar horário e enviar e-mail ou WhatsApp:', error);
+    res.status(500).json({
+      message: 'Erro ao cadastrar horário ou enviar mensagem.',
+    });
   }
 });
 
-    // Enviar SMS de notificação via Twilio
-    if (user.telefone) {
-      await twilioClient.messages.create({
-        body: `Você cadastrou um novo horário com sucesso: ${name} - ${horarios}`,
-        from: TWILIO_PHONE_NUMBER,
-        to: user.telefone
-      });
-      console.log(`SMS enviado para ${user.telefone}`);
-    }
 
+    
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('*', (req, res) => {
