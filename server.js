@@ -331,7 +331,7 @@ app.post('/horarios', async (req, res) => {
       service: 'Gmail',
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,  
+        pass: process.env.EMAIL_PASS,
       },
     });
 
@@ -350,29 +350,27 @@ app.post('/horarios', async (req, res) => {
     console.log(`Email enviado para ${user.email} sobre o novo horário.`);
 
     // Enviar mensagem via WhatsApp usando Twilio
-    const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-    
-    if (user.telefone) {
-      const message = await twilioClient.messages.create({
-        body: `Olá ${user.username}, você cadastrou um novo horário: ${name} às ${horarios}, categoria: ${category}.`,
-        from: `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`, 
-        to: `whatsapp:${user.telefone}`, 
-      });
-      console.log(`Mensagem WhatsApp enviada para ${user.telefone}:`, message.sid);
-    } else {
-      console.log('Telefone não disponível para envio de mensagem.');
-    }
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;   
+    const whatsappNumber = process.env.TWILIO_WHATSAPP_NUMBER;
+    const fromWhatsApp = `whatsapp:${whatsappNumber}`;
+    const client = twilio(accountSid, authToken);
 
-    res.status(201).json({
-      message: 'Horário cadastrado com sucesso, e-mail e WhatsApp enviados!',
-      newHorario,
+    const messageBody = `Novo horário cadastrado: \nNome: ${name}\nHorário: ${horarios}\nCategoria: ${category}`;
+    const recipientWhatsApp = `whatsapp:+5548999795671`; 
+
+    await client.messages.create({
+      body: messageBody,
+      from: fromWhatsApp,
+      to: `whatsapp:${recipientWhatsApp}`, 
     });
+    console.log('Mensagem WhatsApp enviada com sucesso.');
 
+    // Retornar resposta de sucesso
+    res.status(201).json({ message: 'Horário cadastrado com sucesso e notificações enviadas.' });
   } catch (error) {
-    console.error('Erro ao cadastrar horário e enviar e-mail ou WhatsApp:', error);
-    res.status(500).json({
-      message: 'Erro ao cadastrar horário ou enviar mensagem.',
-    });
+    console.error('Erro ao registrar horário:', error);
+    res.status(500).json({ message: 'Erro ao registrar horário e enviar notificações.' });
   }
 });
 
